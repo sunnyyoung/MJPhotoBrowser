@@ -12,7 +12,7 @@
 
 static NSString * const reuseIdentifier = @"Cell";
 
-@interface CollectionViewController () <MJPhotoBrowserDelegate>
+@interface CollectionViewController ()
 
 @property (nonatomic, strong) NSArray *imageURLArray;
 

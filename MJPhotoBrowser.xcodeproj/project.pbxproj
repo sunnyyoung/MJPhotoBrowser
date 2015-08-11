@@ -13,7 +13,6 @@
 		7D7F32341B0F0ADE00A010CD /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7D7F32321B0F0ADE00A010CD /* Main.storyboard */; };
 		7D7F32361B0F0ADE00A010CD /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 7D7F32351B0F0ADE00A010CD /* Images.xcassets */; };
 		7D7F32391B0F0ADE00A010CD /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7D7F32371B0F0ADE00A010CD /* LaunchScreen.xib */; };
-		7D7F32451B0F0ADE00A010CD /* MJPhotoBrowserTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D7F32441B0F0ADE00A010CD /* MJPhotoBrowserTests.m */; };
 		7D7F325C1B0F0B9100A010CD /* MJPhoto.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D7F32501B0F0B9100A010CD /* MJPhoto.m */; };
 		7D7F325D1B0F0B9100A010CD /* MJPhotoBrowser.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 7D7F32511B0F0B9100A010CD /* MJPhotoBrowser.bundle */; };
 		7D7F325E1B0F0B9100A010CD /* MJPhotoBrowser.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D7F32531B0F0B9100A010CD /* MJPhotoBrowser.m */; };
@@ -21,22 +20,9 @@
 		7D7F32601B0F0B9100A010CD /* MJPhotoProgressView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D7F32571B0F0B9100A010CD /* MJPhotoProgressView.m */; };
 		7D7F32611B0F0B9100A010CD /* MJPhotoToolbar.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D7F32591B0F0B9100A010CD /* MJPhotoToolbar.m */; };
 		7D7F32621B0F0B9100A010CD /* MJPhotoView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D7F325B1B0F0B9100A010CD /* MJPhotoView.m */; };
-		7D7F32671B0F0CB400A010CD /* SDWebImageManager+MJ.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D7F32641B0F0CB400A010CD /* SDWebImageManager+MJ.m */; };
-		7D7F32681B0F0CB400A010CD /* UIImageView+MJWebCache.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D7F32661B0F0CB400A010CD /* UIImageView+MJWebCache.m */; };
-		7D7F326B1B0F0D7A00A010CD /* MBProgressHUD+Add.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D7F326A1B0F0D7A00A010CD /* MBProgressHUD+Add.m */; };
 		7D7F326F1B0F0EB500A010CD /* CollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D7F326E1B0F0EB500A010CD /* CollectionViewCell.m */; };
 		7D7F32741B0F0EDC00A010CD /* CollectionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D7F32731B0F0EDC00A010CD /* CollectionViewController.m */; };
 /* End PBXBuildFile section */
-
-/* Begin PBXContainerItemProxy section */
-		7D7F323F1B0F0ADE00A010CD /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 7D7F321D1B0F0ADE00A010CD /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 7D7F32241B0F0ADE00A010CD;
-			remoteInfo = MJPhotoBrowser;
-		};
-/* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
 		61BDFDC6AFDCF8274D5596C5 /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
@@ -48,9 +34,6 @@
 		7D7F32331B0F0ADE00A010CD /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		7D7F32351B0F0ADE00A010CD /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		7D7F32381B0F0ADE00A010CD /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
-		7D7F323E1B0F0ADE00A010CD /* MJPhotoBrowserTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MJPhotoBrowserTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		7D7F32431B0F0ADE00A010CD /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		7D7F32441B0F0ADE00A010CD /* MJPhotoBrowserTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MJPhotoBrowserTests.m; sourceTree = "<group>"; };
 		7D7F324F1B0F0B9100A010CD /* MJPhoto.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MJPhoto.h; sourceTree = "<group>"; };
 		7D7F32501B0F0B9100A010CD /* MJPhoto.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MJPhoto.m; sourceTree = "<group>"; };
 		7D7F32511B0F0B9100A010CD /* MJPhotoBrowser.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = MJPhotoBrowser.bundle; sourceTree = "<group>"; };
@@ -64,12 +47,6 @@
 		7D7F32591B0F0B9100A010CD /* MJPhotoToolbar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MJPhotoToolbar.m; sourceTree = "<group>"; };
 		7D7F325A1B0F0B9100A010CD /* MJPhotoView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MJPhotoView.h; sourceTree = "<group>"; };
 		7D7F325B1B0F0B9100A010CD /* MJPhotoView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MJPhotoView.m; sourceTree = "<group>"; };
-		7D7F32631B0F0CB400A010CD /* SDWebImageManager+MJ.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "SDWebImageManager+MJ.h"; sourceTree = "<group>"; };
-		7D7F32641B0F0CB400A010CD /* SDWebImageManager+MJ.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "SDWebImageManager+MJ.m"; sourceTree = "<group>"; };
-		7D7F32651B0F0CB400A010CD /* UIImageView+MJWebCache.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImageView+MJWebCache.h"; sourceTree = "<group>"; };
-		7D7F32661B0F0CB400A010CD /* UIImageView+MJWebCache.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImageView+MJWebCache.m"; sourceTree = "<group>"; };
-		7D7F32691B0F0D7A00A010CD /* MBProgressHUD+Add.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "MBProgressHUD+Add.h"; sourceTree = "<group>"; };
-		7D7F326A1B0F0D7A00A010CD /* MBProgressHUD+Add.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "MBProgressHUD+Add.m"; sourceTree = "<group>"; };
 		7D7F326D1B0F0EB500A010CD /* CollectionViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CollectionViewCell.h; sourceTree = "<group>"; };
 		7D7F326E1B0F0EB500A010CD /* CollectionViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CollectionViewCell.m; sourceTree = "<group>"; };
 		7D7F32721B0F0EDC00A010CD /* CollectionViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CollectionViewController.h; sourceTree = "<group>"; };
@@ -87,13 +64,6 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		7D7F323B1B0F0ADE00A010CD /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
@@ -101,7 +71,6 @@
 			isa = PBXGroup;
 			children = (
 				7D7F32271B0F0ADE00A010CD /* MJPhotoBrowser */,
-				7D7F32411B0F0ADE00A010CD /* MJPhotoBrowserTests */,
 				7D7F32261B0F0ADE00A010CD /* Products */,
 				B961F480196F1AC2CC8A31E6 /* Pods */,
 				8F7D9B37A64BEE3EE92EF84B /* Frameworks */,
@@ -112,7 +81,6 @@
 			isa = PBXGroup;
 			children = (
 				7D7F32251B0F0ADE00A010CD /* MJPhotoBrowser.app */,
-				7D7F323E1B0F0ADE00A010CD /* MJPhotoBrowserTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -142,23 +110,6 @@
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
-		7D7F32411B0F0ADE00A010CD /* MJPhotoBrowserTests */ = {
-			isa = PBXGroup;
-			children = (
-				7D7F32441B0F0ADE00A010CD /* MJPhotoBrowserTests.m */,
-				7D7F32421B0F0ADE00A010CD /* Supporting Files */,
-			);
-			path = MJPhotoBrowserTests;
-			sourceTree = "<group>";
-		};
-		7D7F32421B0F0ADE00A010CD /* Supporting Files */ = {
-			isa = PBXGroup;
-			children = (
-				7D7F32431B0F0ADE00A010CD /* Info.plist */,
-			);
-			name = "Supporting Files";
-			sourceTree = "<group>";
-		};
 		7D7F324E1B0F0B9100A010CD /* MJPhotoBrowser */ = {
 			isa = PBXGroup;
 			children = (
@@ -175,12 +126,6 @@
 				7D7F32591B0F0B9100A010CD /* MJPhotoToolbar.m */,
 				7D7F325A1B0F0B9100A010CD /* MJPhotoView.h */,
 				7D7F325B1B0F0B9100A010CD /* MJPhotoView.m */,
-				7D7F32631B0F0CB400A010CD /* SDWebImageManager+MJ.h */,
-				7D7F32641B0F0CB400A010CD /* SDWebImageManager+MJ.m */,
-				7D7F32691B0F0D7A00A010CD /* MBProgressHUD+Add.h */,
-				7D7F326A1B0F0D7A00A010CD /* MBProgressHUD+Add.m */,
-				7D7F32651B0F0CB400A010CD /* UIImageView+MJWebCache.h */,
-				7D7F32661B0F0CB400A010CD /* UIImageView+MJWebCache.m */,
 			);
 			path = MJPhotoBrowser;
 			sourceTree = "<group>";
@@ -242,24 +187,6 @@
 			productReference = 7D7F32251B0F0ADE00A010CD /* MJPhotoBrowser.app */;
 			productType = "com.apple.product-type.application";
 		};
-		7D7F323D1B0F0ADE00A010CD /* MJPhotoBrowserTests */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = 7D7F324B1B0F0ADE00A010CD /* Build configuration list for PBXNativeTarget "MJPhotoBrowserTests" */;
-			buildPhases = (
-				7D7F323A1B0F0ADE00A010CD /* Sources */,
-				7D7F323B1B0F0ADE00A010CD /* Frameworks */,
-				7D7F323C1B0F0ADE00A010CD /* Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-				7D7F32401B0F0ADE00A010CD /* PBXTargetDependency */,
-			);
-			name = MJPhotoBrowserTests;
-			productName = MJPhotoBrowserTests;
-			productReference = 7D7F323E1B0F0ADE00A010CD /* MJPhotoBrowserTests.xctest */;
-			productType = "com.apple.product-type.bundle.unit-test";
-		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -271,10 +198,6 @@
 				TargetAttributes = {
 					7D7F32241B0F0ADE00A010CD = {
 						CreatedOnToolsVersion = 6.3.2;
-					};
-					7D7F323D1B0F0ADE00A010CD = {
-						CreatedOnToolsVersion = 6.3.2;
-						TestTargetID = 7D7F32241B0F0ADE00A010CD;
 					};
 				};
 			};
@@ -292,7 +215,6 @@
 			projectRoot = "";
 			targets = (
 				7D7F32241B0F0ADE00A010CD /* MJPhotoBrowser */,
-				7D7F323D1B0F0ADE00A010CD /* MJPhotoBrowserTests */,
 			);
 		};
 /* End PBXProject section */
@@ -306,13 +228,6 @@
 				7D7F32391B0F0ADE00A010CD /* LaunchScreen.xib in Resources */,
 				7D7F325D1B0F0B9100A010CD /* MJPhotoBrowser.bundle in Resources */,
 				7D7F32361B0F0ADE00A010CD /* Images.xcassets in Resources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		7D7F323C1B0F0ADE00A010CD /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -358,37 +273,18 @@
 			files = (
 				7D7F325E1B0F0B9100A010CD /* MJPhotoBrowser.m in Sources */,
 				7D7F32601B0F0B9100A010CD /* MJPhotoProgressView.m in Sources */,
-				7D7F32671B0F0CB400A010CD /* SDWebImageManager+MJ.m in Sources */,
 				7D7F325F1B0F0B9100A010CD /* MJPhotoLoadingView.m in Sources */,
 				7D7F325C1B0F0B9100A010CD /* MJPhoto.m in Sources */,
 				7D7F322E1B0F0ADE00A010CD /* AppDelegate.m in Sources */,
 				7D7F326F1B0F0EB500A010CD /* CollectionViewCell.m in Sources */,
-				7D7F326B1B0F0D7A00A010CD /* MBProgressHUD+Add.m in Sources */,
 				7D7F322B1B0F0ADE00A010CD /* main.m in Sources */,
 				7D7F32621B0F0B9100A010CD /* MJPhotoView.m in Sources */,
 				7D7F32741B0F0EDC00A010CD /* CollectionViewController.m in Sources */,
-				7D7F32681B0F0CB400A010CD /* UIImageView+MJWebCache.m in Sources */,
 				7D7F32611B0F0B9100A010CD /* MJPhotoToolbar.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		7D7F323A1B0F0ADE00A010CD /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				7D7F32451B0F0ADE00A010CD /* MJPhotoBrowserTests.m in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 /* End PBXSourcesBuildPhase section */
-
-/* Begin PBXTargetDependency section */
-		7D7F32401B0F0ADE00A010CD /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 7D7F32241B0F0ADE00A010CD /* MJPhotoBrowser */;
-			targetProxy = 7D7F323F1B0F0ADE00A010CD /* PBXContainerItemProxy */;
-		};
-/* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
 		7D7F32321B0F0ADE00A010CD /* Main.storyboard */ = {
@@ -516,40 +412,6 @@
 			};
 			name = Release;
 		};
-		7D7F324C1B0F0ADE00A010CD /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				BUNDLE_LOADER = "$(TEST_HOST)";
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(SDKROOT)/Developer/Library/Frameworks",
-					"$(inherited)",
-				);
-				GCC_PREPROCESSOR_DEFINITIONS = (
-					"DEBUG=1",
-					"$(inherited)",
-				);
-				INFOPLIST_FILE = MJPhotoBrowserTests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/MJPhotoBrowser.app/MJPhotoBrowser";
-			};
-			name = Debug;
-		};
-		7D7F324D1B0F0ADE00A010CD /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				BUNDLE_LOADER = "$(TEST_HOST)";
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(SDKROOT)/Developer/Library/Frameworks",
-					"$(inherited)",
-				);
-				INFOPLIST_FILE = MJPhotoBrowserTests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/MJPhotoBrowser.app/MJPhotoBrowser";
-			};
-			name = Release;
-		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -567,15 +429,6 @@
 			buildConfigurations = (
 				7D7F32491B0F0ADE00A010CD /* Debug */,
 				7D7F324A1B0F0ADE00A010CD /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		7D7F324B1B0F0ADE00A010CD /* Build configuration list for PBXNativeTarget "MJPhotoBrowserTests" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				7D7F324C1B0F0ADE00A010CD /* Debug */,
-				7D7F324D1B0F0ADE00A010CD /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

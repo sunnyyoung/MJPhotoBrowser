@@ -4,250 +4,264 @@
 //  Created by mj on 13-3-4.
 //  Copyright (c) 2013年 itcast. All rights reserved.
 
-#import <QuartzCore/QuartzCore.h>
 #import "MJPhotoBrowser.h"
-#import "SDWebImageManager+MJ.h"
+#import "MJPhoto.h"
 #import "MJPhotoView.h"
 #import "MJPhotoToolbar.h"
+#import <SDWebImage/SDWebImagePrefetcher.h>
 
 #define kPadding 10
 #define kPhotoViewTagOffset 1000
 #define kPhotoViewIndex(photoView) ([photoView tag] - kPhotoViewTagOffset)
 
 @interface MJPhotoBrowser () <MJPhotoViewDelegate>
-{
-	// 滚动的view
-	UIScrollView *_photoScrollView;
-	// 所有的图片view
-	NSMutableSet *_visiblePhotoViews;
-	NSMutableSet *_reusablePhotoViews;
-	// 工具条
-	MJPhotoToolbar *_toolbar;
-
-	// 一开始的状态栏
-	BOOL _statusBarHiddenInited;
-}
+@property (strong, nonatomic) UIView *view;
+@property (strong, nonatomic) UIScrollView *photoScrollView;
+@property (strong, nonatomic) NSMutableSet *visiblePhotoViews, *reusablePhotoViews;
+@property (strong, nonatomic) MJPhotoToolbar *toolbar;
 @end
 
 @implementation MJPhotoBrowser
 
-#pragma mark - Lifecycle
-- (void)loadView {
-	_statusBarHiddenInited = [UIApplication sharedApplication].isStatusBarHidden;
-	// 隐藏状态栏
-	[[UIApplication sharedApplication] setStatusBarHidden:YES withAnimation:UIStatusBarAnimationFade];
-	self.view = [[UIView alloc] init];
-	self.view.frame = [UIScreen mainScreen].bounds;
-	self.view.backgroundColor = [UIColor blackColor];
+#pragma mark - init M
+
+- (instancetype)init
+{
+    self = [super init];
+    if (self) {
+        _showSaveBtn = YES;
+    }
+    return self;
 }
 
-- (void)viewDidLoad {
-	[super viewDidLoad];
+#pragma mark - get M
 
-	// 1.创建UIScrollView
-	[self createScrollView];
-
-	// 2.创建工具条
-	[self createToolbar];
+- (UIView *)view{
+    if (!_view) {
+        _view = [[UIView alloc] initWithFrame:[UIApplication sharedApplication].keyWindow.bounds];
+        _view.backgroundColor = [UIColor blackColor];
+    }
+    return _view;
 }
 
-- (void)show {
-	UIWindow *window = [UIApplication sharedApplication].keyWindow;
-	[window addSubview:self.view];
-	[window.rootViewController addChildViewController:self];
-
-	if (_currentPhotoIndex == 0) {
-		[self showPhotos];
-	}
+- (UIScrollView *)photoScrollView{
+    if (!_photoScrollView) {
+        CGRect frame = self.view.bounds;
+        frame.origin.x -= kPadding;
+        frame.size.width += (2 * kPadding);
+        _photoScrollView = [[UIScrollView alloc] initWithFrame:frame];
+        _photoScrollView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
+        _photoScrollView.pagingEnabled = YES;
+        _photoScrollView.delegate = self;
+        _photoScrollView.showsHorizontalScrollIndicator = NO;
+        _photoScrollView.showsVerticalScrollIndicator = NO;
+        _photoScrollView.backgroundColor = [UIColor clearColor];
+    }
+    return _photoScrollView;
 }
 
-#pragma mark - 私有方法
-#pragma mark 创建工具条
-- (void)createToolbar {
-	CGFloat barHeight = 94;
-	CGFloat barY = self.view.frame.size.height - barHeight;
-	_toolbar = [[MJPhotoToolbar alloc] init];
-	_toolbar.frame = CGRectMake(0, barY, self.view.frame.size.width, barHeight);
-	_toolbar.autoresizingMask = UIViewAutoresizingFlexibleTopMargin;
-	_toolbar.photos = _photos;
-	[self.view addSubview:_toolbar];
-
-	[self updateTollbarState];
+- (MJPhotoToolbar *)toolbar{
+    if (!_toolbar) {
+        CGFloat barHeight = 49;
+        CGFloat barY = self.view.frame.size.height - barHeight;
+        _toolbar = [[MJPhotoToolbar alloc] init];
+        _toolbar.showSaveBtn = _showSaveBtn;
+        _toolbar.frame = CGRectMake(0, barY, self.view.frame.size.width, barHeight);
+        _toolbar.autoresizingMask = UIViewAutoresizingFlexibleTopMargin;
+    }
+    return _toolbar;
 }
 
-#pragma mark 创建UIScrollView
-- (void)createScrollView {
-	CGRect frame = self.view.bounds;
-	frame.origin.x -= kPadding;
-	frame.size.width += (2 * kPadding);
-	_photoScrollView = [[UIScrollView alloc] initWithFrame:frame];
-	_photoScrollView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
-	_photoScrollView.pagingEnabled = YES;
-	_photoScrollView.delegate = self;
-	_photoScrollView.showsHorizontalScrollIndicator = NO;
-	_photoScrollView.showsVerticalScrollIndicator = NO;
-	_photoScrollView.backgroundColor = [UIColor clearColor];
-	_photoScrollView.contentSize = CGSizeMake(frame.size.width * _photos.count, 0);
-	[self.view addSubview:_photoScrollView];
-	_photoScrollView.contentOffset = CGPointMake(_currentPhotoIndex * frame.size.width, 0);
+- (void)show
+{
+    [[UIApplication sharedApplication].keyWindow endEditing:YES];
+
+    //初始化数据
+    {
+        if (!_visiblePhotoViews) {
+            _visiblePhotoViews = [NSMutableSet set];
+        }
+        if (!_reusablePhotoViews) {
+            _reusablePhotoViews = [NSMutableSet set];
+        }
+        self.toolbar.photos = self.photos;
+        
+        
+        CGRect frame = self.view.bounds;
+        frame.origin.x -= kPadding;
+        frame.size.width += (2 * kPadding);
+        self.photoScrollView.contentSize = CGSizeMake(frame.size.width * self.photos.count, 0);
+        self.photoScrollView.contentOffset = CGPointMake(self.currentPhotoIndex * frame.size.width, 0);
+        
+        [self.view addSubview:self.photoScrollView];
+        [self.view addSubview:self.toolbar];
+        [self updateTollbarState];
+        [self showPhotos];
+    }
+    //渐变显示
+    self.view.alpha = 0;
+    [[UIApplication sharedApplication].keyWindow addSubview:self.view];
+    [UIView animateWithDuration:0.3 animations:^{
+        self.view.alpha = 1.0;
+    } completion:^(BOOL finished) {
+        [[UIApplication sharedApplication] setStatusBarHidden:YES withAnimation:UIStatusBarAnimationFade];
+    }];
 }
 
-- (void)setPhotos:(NSArray *)photos {
-	_photos = photos;
-
-	if (photos.count > 1) {
-		_visiblePhotoViews = [NSMutableSet set];
-		_reusablePhotoViews = [NSMutableSet set];
-	}
-
-	for (int i = 0; i < _photos.count; i++) {
-		MJPhoto *photo = _photos[i];
-		photo.index = i;
-		photo.firstShow = i == _currentPhotoIndex;
-	}
+#pragma mark - set M
+- (void)setPhotos:(NSArray *)photos
+{
+    _photos = photos;
+    if (_photos.count <= 0) {
+        return;
+    }
+    for (int i = 0; i<_photos.count; i++) {
+        MJPhoto *photo = _photos[i];
+        photo.index = i;
+    }
 }
 
-#pragma mark 设置选中的图片
-- (void)setCurrentPhotoIndex:(NSUInteger)currentPhotoIndex {
-	_currentPhotoIndex = currentPhotoIndex;
-
-	for (int i = 0; i < _photos.count; i++) {
-		MJPhoto *photo = _photos[i];
-		photo.firstShow = i == currentPhotoIndex;
-	}
-
-	if ([self isViewLoaded]) {
-		_photoScrollView.contentOffset = CGPointMake(_currentPhotoIndex * _photoScrollView.frame.size.width, 0);
-
-		// 显示所有的相片
-		[self showPhotos];
-	}
+- (void)setCurrentPhotoIndex:(NSUInteger)currentPhotoIndex
+{
+    _currentPhotoIndex = currentPhotoIndex;
+    
+    if (_photoScrollView) {
+        _photoScrollView.contentOffset = CGPointMake(_currentPhotoIndex * _photoScrollView.frame.size.width, 0);
+        
+        // 显示所有的相片
+        [self showPhotos];
+    }
 }
 
-#pragma mark - MJPhotoView代理
-- (void)photoViewSingleTap:(MJPhotoView *)photoView {
-	[UIApplication sharedApplication].statusBarHidden = _statusBarHiddenInited;
-	self.view.backgroundColor = [UIColor clearColor];
-
-	// 移除工具条
-	[_toolbar removeFromSuperview];
+#pragma mark - Show Photos
+- (void)showPhotos
+{
+    CGRect visibleBounds = _photoScrollView.bounds;
+    int firstIndex = (int)floorf((CGRectGetMinX(visibleBounds)+kPadding*2) / CGRectGetWidth(visibleBounds));
+    int lastIndex  = (int)floorf((CGRectGetMaxX(visibleBounds)-kPadding*2-1) / CGRectGetWidth(visibleBounds));
+    if (firstIndex < 0) firstIndex = 0;
+    if (firstIndex >= _photos.count) firstIndex = (int)_photos.count - 1;
+    if (lastIndex < 0) lastIndex = 0;
+    if (lastIndex >= _photos.count) lastIndex = (int)_photos.count - 1;
+    
+    // 回收不再显示的ImageView
+    NSInteger photoViewIndex;
+    for (MJPhotoView *photoView in _visiblePhotoViews) {
+        photoViewIndex = kPhotoViewIndex(photoView);
+        if (photoViewIndex < firstIndex || photoViewIndex > lastIndex) {
+            [_reusablePhotoViews addObject:photoView];
+            [photoView removeFromSuperview];
+        }
+    }
+    
+    [_visiblePhotoViews minusSet:_reusablePhotoViews];
+    while (_reusablePhotoViews.count > 2) {
+        [_reusablePhotoViews removeObject:[_reusablePhotoViews anyObject]];
+    }
+    
+    for (NSUInteger index = firstIndex; index <= lastIndex; index++) {
+        if (![self isShowingPhotoViewAtIndex:index]) {
+            [self showPhotoViewAtIndex:(int)index];
+        }
+    }
+    
 }
 
-- (void)photoViewDidEndZoom:(MJPhotoView *)photoView {
-	[self.view removeFromSuperview];
-	[self removeFromParentViewController];
+//  显示一个图片view
+- (void)showPhotoViewAtIndex:(int)index
+{
+    MJPhotoView *photoView = [self dequeueReusablePhotoView];
+    if (!photoView) { // 添加新的图片view
+        photoView = [[MJPhotoView alloc] init];
+        photoView.photoViewDelegate = self;
+    }
+    
+    // 调整当前页的frame
+    CGRect bounds = _photoScrollView.bounds;
+    CGRect photoViewFrame = bounds;
+    photoViewFrame.size.width -= (2 * kPadding);
+    photoViewFrame.origin.x = (bounds.size.width * index) + kPadding;
+    photoView.tag = kPhotoViewTagOffset + index;
+    
+    MJPhoto *photo = _photos[index];
+    photoView.frame = photoViewFrame;
+    photoView.photo = photo;
+    
+    [_visiblePhotoViews addObject:photoView];
+    [_photoScrollView addSubview:photoView];
+    
+    [self loadImageNearIndex:index];
 }
 
-- (void)photoViewImageFinishLoad:(MJPhotoView *)photoView {
-	_toolbar.currentPhotoIndex = _currentPhotoIndex;
+//  加载index附近的图片
+- (void)loadImageNearIndex:(int)index
+{
+    if (index > 0) {
+        MJPhoto *photo = _photos[index - 1];
+        [[SDWebImageManager sharedManager] downloadImageWithURL:photo.url options:SDWebImageRetryFailed|SDWebImageLowPriority progress:nil completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, BOOL finished, NSURL *imageURL) {
+            //do nothing
+        }];
+    }
+    
+    if (index < _photos.count - 1) {
+        MJPhoto *photo = _photos[index + 1];
+        [[SDWebImageManager sharedManager] downloadImageWithURL:photo.url options:SDWebImageRetryFailed|SDWebImageLowPriority progress:nil completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, BOOL finished, NSURL *imageURL) {
+            //do nothing
+        }];
+    }
 }
 
-#pragma mark 显示照片
-- (void)showPhotos {
-	// 只有一张图片
-	if (_photos.count == 1) {
-		[self showPhotoViewAtIndex:0];
-		return;
-	}
-
-	CGRect visibleBounds = _photoScrollView.bounds;
-	NSInteger firstIndex = (int)floorf((CGRectGetMinX(visibleBounds) + kPadding * 2) / CGRectGetWidth(visibleBounds));
-	NSInteger lastIndex  = (int)floorf((CGRectGetMaxX(visibleBounds) - kPadding * 2 - 1) / CGRectGetWidth(visibleBounds));
-	if (firstIndex < 0) firstIndex = 0;
-	if (firstIndex >= _photos.count) firstIndex = _photos.count - 1;
-	if (lastIndex < 0) lastIndex = 0;
-	if (lastIndex >= _photos.count) lastIndex = _photos.count - 1;
-
-	// 回收不再显示的ImageView
-	NSInteger photoViewIndex;
-	for (MJPhotoView *photoView in _visiblePhotoViews) {
-		photoViewIndex = kPhotoViewIndex(photoView);
-		if (photoViewIndex < firstIndex || photoViewIndex > lastIndex) {
-			[_reusablePhotoViews addObject:photoView];
-			[photoView removeFromSuperview];
-		}
-	}
-
-	[_visiblePhotoViews minusSet:_reusablePhotoViews];
-	while (_reusablePhotoViews.count > 2) {
-		[_reusablePhotoViews removeObject:[_reusablePhotoViews anyObject]];
-	}
-
-	for (NSUInteger index = firstIndex; index <= lastIndex; index++) {
-		if (![self isShowingPhotoViewAtIndex:index]) {
-			[self showPhotoViewAtIndex:index];
-		}
-	}
-}
-
-#pragma mark 显示一个图片view
-- (void)showPhotoViewAtIndex:(NSUInteger)index {
-	MJPhotoView *photoView = [self dequeueReusablePhotoView];
-	if (!photoView) { // 添加新的图片view
-		photoView = [[MJPhotoView alloc] init];
-		photoView.photoViewDelegate = self;
-	}
-
-	// 调整当期页的frame
-	CGRect bounds = _photoScrollView.bounds;
-	CGRect photoViewFrame = bounds;
-	photoViewFrame.size.width -= (2 * kPadding);
-	photoViewFrame.origin.x = (bounds.size.width * index) + kPadding;
-	photoView.tag = kPhotoViewTagOffset + index;
-
-	MJPhoto *photo = _photos[index];
-	photoView.frame = photoViewFrame;
-	photoView.photo = photo;
-    _toolbar.currentPhotoIndex = index;     //修复显示单张图片保存按钮无效
-
-	[_visiblePhotoViews addObject:photoView];
-	[_photoScrollView addSubview:photoView];
-
-	[self loadImageNearIndex:index];
-}
-
-#pragma mark 加载index附近的图片
-- (void)loadImageNearIndex:(NSUInteger)index {
-	if (index > 0) {
-		MJPhoto *photo = _photos[index - 1];
-		[SDWebImageManager downloadWithURL:photo.url];
-	}
-
-	if (index < _photos.count - 1) {
-		MJPhoto *photo = _photos[index + 1];
-		[SDWebImageManager downloadWithURL:photo.url];
-	}
-}
-
-#pragma mark index这页是否正在显示
+//  index这页是否正在显示
 - (BOOL)isShowingPhotoViewAtIndex:(NSUInteger)index {
-	for (MJPhotoView *photoView in _visiblePhotoViews) {
-		if (kPhotoViewIndex(photoView) == index) {
-			return YES;
-		}
-	}
-	return NO;
+    for (MJPhotoView *photoView in _visiblePhotoViews) {
+        if (kPhotoViewIndex(photoView) == index) {
+            return YES;
+        }
+    }
+    return  NO;
+}
+// 重用页面
+- (MJPhotoView *)dequeueReusablePhotoView
+{
+    MJPhotoView *photoView = [_reusablePhotoViews anyObject];
+    if (photoView) {
+        [_reusablePhotoViews removeObject:photoView];
+    }
+    return photoView;
 }
 
-#pragma mark 循环利用某个view
-- (MJPhotoView *)dequeueReusablePhotoView {
-	MJPhotoView *photoView = [_reusablePhotoViews anyObject];
-	if (photoView) {
-		[_reusablePhotoViews removeObject:photoView];
-	}
-	return photoView;
+#pragma mark - updateTollbarState
+- (void)updateTollbarState
+{
+    _currentPhotoIndex = _photoScrollView.contentOffset.x / _photoScrollView.frame.size.width;
+    _toolbar.currentPhotoIndex = _currentPhotoIndex;
 }
 
-#pragma mark 更新toolbar状态
-- (void)updateTollbarState {
-	_currentPhotoIndex = _photoScrollView.contentOffset.x / _photoScrollView.frame.size.width;
-	_toolbar.currentPhotoIndex = _currentPhotoIndex;
+
+
+#pragma mark - MJPhotoViewDelegate
+- (void)photoViewSingleTap:(MJPhotoView *)photoView
+{
+    [[UIApplication sharedApplication] setStatusBarHidden:NO withAnimation:UIStatusBarAnimationNone];
+    // 移除工具条
+    [self.toolbar removeFromSuperview];
+    
+    [UIView animateWithDuration:0.3 animations:^{
+        self.view.alpha = 0;
+    } completion:^(BOOL finished) {
+        [self.view removeFromSuperview];
+    }];
+}
+
+- (void)photoViewImageFinishLoad:(MJPhotoView *)photoView
+{
+    [self updateTollbarState];
 }
 
 #pragma mark - UIScrollView Delegate
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView {
 	[self showPhotos];
-	[self updateTollbarState];
+    [self updateTollbarState];
 }
 
 @end

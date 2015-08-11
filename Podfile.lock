@@ -1,15 +1,18 @@
 PODS:
-  - MBProgressHUD (0.9.1)
   - SDWebImage (3.7.2):
     - SDWebImage/Core (= 3.7.2)
   - SDWebImage/Core (3.7.2)
+  - SVProgressHUD (1.1)
+  - YLGIFImage (0.11)
 
 DEPENDENCIES:
-  - MBProgressHUD
   - SDWebImage
+  - SVProgressHUD
+  - YLGIFImage
 
 SPEC CHECKSUMS:
-  MBProgressHUD: c47f2c166c126cf2ce36498d80f33e754d4e93ad
   SDWebImage: 71b7cdc1d1721d6a82ed62889030225f2c249e29
+  SVProgressHUD: 54de4d9ab38aa3f688da401f5766a5738084e7fb
+  YLGIFImage: c0ae132fe80e5282b2762a97d14e23ba71a748ae
 
-COCOAPODS: 0.37.1
+COCOAPODS: 0.38.2
