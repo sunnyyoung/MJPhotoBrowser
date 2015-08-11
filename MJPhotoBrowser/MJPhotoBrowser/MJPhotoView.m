@@ -176,6 +176,7 @@
         if (ABS(_imageView.frame.origin.y - insetY) > 0.5) {
             CGRect imageViewFrame = _imageView.frame;
             imageViewFrame = CGRectMake(imageViewFrame.origin.x, insetY, imageViewFrame.size.width, imageViewFrame.size.height);
+            _imageView.frame = imageViewFrame;
         }
     }
 	return _imageView;
@@ -189,6 +190,7 @@
         [UIView animateWithDuration:0.2 animations:^{
             CGRect imageViewFrame = _imageView.frame;
             imageViewFrame = CGRectMake(imageViewFrame.origin.x, insetY, imageViewFrame.size.width, imageViewFrame.size.height);
+            _imageView.frame = imageViewFrame;
         }];
     }
 }
