@@ -1,7 +1,7 @@
 PODS:
-  - SDWebImage (3.7.2):
-    - SDWebImage/Core (= 3.7.2)
-  - SDWebImage/Core (3.7.2)
+  - SDWebImage (3.7.6):
+    - SDWebImage/Core (= 3.7.6)
+  - SDWebImage/Core (3.7.6)
   - SVProgressHUD (1.1)
   - YLGIFImage (0.11)
 
@@ -11,8 +11,10 @@ DEPENDENCIES:
   - YLGIFImage
 
 SPEC CHECKSUMS:
-  SDWebImage: 71b7cdc1d1721d6a82ed62889030225f2c249e29
+  SDWebImage: c325cf02c30337336b95beff20a13df489ec0ec9
   SVProgressHUD: 54de4d9ab38aa3f688da401f5766a5738084e7fb
   YLGIFImage: c0ae132fe80e5282b2762a97d14e23ba71a748ae
 
-COCOAPODS: 0.38.2
+PODFILE CHECKSUM: 08528a735cdc369a4a66539873e05a8656a31011
+
+COCOAPODS: 1.2.0.beta.1
