@@ -106,16 +106,20 @@
         ESWeak_(_photoLoadingView);
         ESWeak_(_imageView);
         
-        [SDWebImageManager.sharedManager downloadImageWithURL:_photo.url options:SDWebImageRetryFailed| SDWebImageLowPriority| SDWebImageHandleCookies progress:^(NSInteger receivedSize, NSInteger expectedSize) {
+        [SDWebImageManager.sharedManager.imageDownloader downloadImageWithURL:_photo.url options:SDWebImageRetryFailed| SDWebImageLowPriority| SDWebImageHandleCookies progress:^(NSInteger receivedSize, NSInteger expectedSize, NSURL * _Nullable targetURL) {
             ESStrong_(_photoLoadingView);
-            if (receivedSize > kMinProgress) {
-                __photoLoadingView.progress = (float)receivedSize/expectedSize;
-            }
-        } completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, BOOL finished, NSURL *imageURL) {
+            dispatch_async(dispatch_get_main_queue(), ^{
+                if (receivedSize > kMinProgress) {
+                    __photoLoadingView.progress = (float)receivedSize/expectedSize;
+                }
+            });
+        } completed:^(UIImage *image, NSData *data, NSError *error, BOOL finished) {
             ESStrongSelf;
             ESStrong_(_imageView);
-            __imageView.image = image;
-            [_self photoDidFinishLoadWithImage:image];
+            dispatch_async(dispatch_get_main_queue(), ^{
+                __imageView.image = image;
+                [_self photoDidFinishLoadWithImage:image];
+            });
         }];
     }
 }

@@ -66,6 +66,7 @@
         CGFloat barY = self.view.frame.size.height - barHeight;
         _toolbar = [[MJPhotoToolbar alloc] init];
         _toolbar.showSaveBtn = _showSaveBtn;
+        _toolbar.albumAuthorizeDeniedBlock = _albumAuthorizeDeniedBlock;
         _toolbar.frame = CGRectMake(0, barY, self.view.frame.size.width, barHeight);
         _toolbar.autoresizingMask = UIViewAutoresizingFlexibleTopMargin;
     }
@@ -100,7 +101,7 @@
     }
     //渐变显示
     self.view.alpha = 0;
-    [[UIApplication sharedApplication].keyWindow addSubview:self.view];
+    [[UIApplication sharedApplication].keyWindow.rootViewController.view addSubview:self.view];
     [UIView animateWithDuration:0.3 animations:^{
         self.view.alpha = 1.0;
     } completion:^(BOOL finished) {
@@ -198,15 +199,15 @@
 {
     if (index > 0) {
         MJPhoto *photo = _photos[index - 1];
-        [[SDWebImageManager sharedManager] downloadImageWithURL:photo.url options:SDWebImageRetryFailed|SDWebImageLowPriority progress:nil completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, BOOL finished, NSURL *imageURL) {
+        [[SDWebImageManager sharedManager].imageDownloader downloadImageWithURL:photo.url options:SDWebImageRetryFailed|SDWebImageLowPriority progress:nil completed:^(UIImage * _Nullable image, NSData * _Nullable data, NSError * _Nullable error, BOOL finished) {
             //do nothing
         }];
     }
     
     if (index < _photos.count - 1) {
         MJPhoto *photo = _photos[index + 1];
-        [[SDWebImageManager sharedManager] downloadImageWithURL:photo.url options:SDWebImageRetryFailed|SDWebImageLowPriority progress:nil completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, BOOL finished, NSURL *imageURL) {
-            //do nothing
+        [[SDWebImageManager sharedManager].imageDownloader downloadImageWithURL:photo.url options:SDWebImageRetryFailed|SDWebImageLowPriority progress:nil completed:^(UIImage * _Nullable image, NSData * _Nullable data, NSError * _Nullable error, BOOL finished) {
+            //do nothing;
         }];
     }
 }
