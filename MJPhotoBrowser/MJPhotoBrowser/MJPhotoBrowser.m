@@ -66,6 +66,7 @@
         CGFloat barY = self.view.frame.size.height - barHeight;
         _toolbar = [[MJPhotoToolbar alloc] init];
         _toolbar.showSaveBtn = _showSaveBtn;
+        _toolbar.albumAuthorizeDeniedBlock = _albumAuthorizeDeniedBlock;
         _toolbar.frame = CGRectMake(0, barY, self.view.frame.size.width, barHeight);
         _toolbar.autoresizingMask = UIViewAutoresizingFlexibleTopMargin;
     }

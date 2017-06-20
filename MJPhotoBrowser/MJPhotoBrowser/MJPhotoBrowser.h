@@ -14,7 +14,10 @@
 // 当前展示的图片索引
 @property (nonatomic, assign) NSUInteger currentPhotoIndex;
 // 保存按钮
-@property (nonatomic, assign) NSUInteger showSaveBtn;
+@property (nonatomic, assign) BOOL showSaveBtn;
+
+// 无相册访问权限回调block
+@property (nonatomic, copy) void(^albumAuthorizeDeniedBlock)();
 
 // 显示
 - (void)show;
