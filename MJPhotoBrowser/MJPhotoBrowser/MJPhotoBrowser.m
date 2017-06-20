@@ -101,7 +101,7 @@
     }
     //渐变显示
     self.view.alpha = 0;
-    [[UIApplication sharedApplication].keyWindow addSubview:self.view];
+    [[UIApplication sharedApplication].keyWindow.rootViewController.view addSubview:self.view];
     [UIView animateWithDuration:0.3 animations:^{
         self.view.alpha = 1.0;
     } completion:^(BOOL finished) {
